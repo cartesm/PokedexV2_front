@@ -15,20 +15,28 @@ function Content() {
 
   return (
     <main className='container max-w-5xl w-full mx-auto bg-gray-600'>
-     {/*  <section className='flex items-center justify-center flex-col'>
+       <section className='flex items-center justify-center flex-col'>
         <h1 className='text-4xl py-5 font-semibold  text-white'>{pokemon.name}</h1>
-        <img width={300} src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} alt={pokemon.name} />
+        <img width={300} src={pokemon.image} alt={pokemon.name} />
         <div className='py-3'>
-          {pokemon.types.map((data, index) =>
+          {/* {pokemon.types.map((data, index) =>
             <span className='mx-2 text-lg font-sans' key={index}>
               {data.type.name}
             </span>
-          )}
+          )} */}
         </div>
+        <p className='flex flex-col text-lg text-white items-center'>
+          <span>{pokemon.description.nick}</span>
+          {pokemon.description.description}
+        </p>
       </section>
-      <section>
-            
-      </section> */}
+      <section className='flex gap-5'>
+            <img src={pokemon.evolutions.first.image} alt="" />
+            {pokemon.evolutions.intermediare?.map((data,index)=>{
+              <img src={data.image} key={index} alt=''/>
+            })}
+            <img src={pokemon.evolutions.finally.image} alt="" />
+      </section> 
     </main>
   )
 }

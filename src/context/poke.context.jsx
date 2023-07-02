@@ -23,7 +23,6 @@ const pokeContextProvider = ({ children }) => {
             -linea evolutiva
             -habilidades--
             -mobimientos--
-            -apariciones // game_indices
 
             */
             const urlDescription = async () => {
@@ -78,43 +77,50 @@ const pokeContextProvider = ({ children }) => {
 
                 }
             })
-            const urlAparitions = resp.data.game_indices.map(async data => {
-                const response = await getDataPokemonRequest(data.version.url)
-                const name = response.data.names.filter(dt => dt.language.name == "es")[0].name
-                return { game: name }
-            })
             const urlEvolutionLine = async () => {
                 const firstResponse = await getDataPokemonRequest(resp.data.species.url)
                 const secondResponse = await getDataPokemonRequest(firstResponse.data.evolution_chain.url)
-                const intermediare = secondResponse.data.chain.evolves_to.map((data) => data.species?.name)
-
+                const intermediare = secondResponse.data.chain.evolves_to.map(async(data) => {
+                    const name =data.species?.name
+                    return {
+                        name,
+                        image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(data.species.name)).data.id}.png`
+                    }
+                })
+                const conditio=secondResponse.data.chain.evolves_to[0] && secondResponse.data.chain.evolves_to[0].evolves_to.length>0
+                const intermediareResolve = await Promise.all(intermediare)
                 return {
-                    first: secondResponse.data.chain.species.name,
-                    intermediare,
-                    finally: secondResponse.data.chain.evolves_to[0] ? secondResponse.data.chain.evolves_to[0].species.name : undefined
+                    first: {
+                        name:secondResponse.data.chain.species.name,
+                        image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${resp.data.id}.png`
+                    },
+                    intermediare:intermediareResolve,
+                    finally: {
+                    name :conditio? secondResponse.data.chain.evolves_to[0].species.name : undefined,
+                    image:conditio?`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(secondResponse.data.chain.evolves_to[0].species.name)).data.id}.png`:undefined
+                }
                 }
             }
-            console.log(resp.data)
             const dataEvolutionLine = await urlEvolutionLine()
             const dataDescription = await urlDescription()
-            const dataStats = await Promise.all(urlStats)//los datos numericos estan es la repuesta general
+            const dataStats = await Promise.all(urlStats)
             const dataTypes = await Promise.all(urlTypes)
             const dataAbilities = await Promise.all(urlAbilities)
             const dataMoves = await Promise.all(urlMobments)
-            const dataAparitions = await Promise.all(urlAparitions)
 
             const all = {
+                name:resp.data.name,
+                id:resp.data.id,
                 evolutions: dataEvolutionLine,
                 abilities: dataAbilities,
                 description: dataDescription,
                 types: dataTypes,
                 stats: dataStats,
                 moves: dataMoves,
-                aparitions: dataAparitions
+                image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${resp.data.id}.png`,
             }
             console.log(all)
-
-            setPokemon(resp.data)
+            setPokemon(all)
             setCharge(false)
         } catch (err) {
             console.log(err)
