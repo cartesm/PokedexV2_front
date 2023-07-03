@@ -126,11 +126,15 @@ const pokeContextProvider = ({ children }) => {
             setCharge(false)
         }
     }
+    const firtLetterUP = (text) => {
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
 
     return <pokeContext.Provider value={{
         getPokemon,
         pokemon,
-        charge
+        charge,
+        firtLetterUP
     }}>
         {children}
     </pokeContext.Provider>

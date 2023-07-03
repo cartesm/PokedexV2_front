@@ -7,16 +7,19 @@ function Header() {
     const { isLoged, logout, userData } = useAuth()
 
     return (
-        <header className='bg-sky-950 max-w-5xl w-auto mx-auto py-1 px-3 flex items-center justify-around'>
+        <header className='bg-sky-800  w-auto mx-auto py-1 px-3 flex items-center justify-around'>
             <h1 className='text-4xl font-semibold text-white'>
-                SimplePokedex V2
+                Simpledex
             </h1>
+            <form action="">
+                <input placeholder='Busca un pokemon' type="text" className='rounded-full outline-none px-3 py-1 caret-red-600' />
+            </form>
+            {/* hacer despues el icono del user */}
             <ul className='flex gap-4 items-center'>
 
                 {
                     isLoged ? (
                         <>
-                            <h2 className='text-2xl text-sky-600 font-semibold'>hola { userData.userName}</h2>
                             <li>
                                 <Link className='nav-links'
                                     to={"/favorites"} >Favorites</Link>

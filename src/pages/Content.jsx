@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { usePoke } from '../context/poke.context'
 function Content() {
 
-  const { getPokemon, pokemon, charge } = usePoke()
+  const { getPokemon, pokemon, charge, firtLetterUP } = usePoke()
   const { id } = useParams()
 
   useEffect(() => {
@@ -14,21 +14,20 @@ function Content() {
   if (charge) return <div className='loader bg-red-600 mx-auto'></div>
 
   return (
-    <main className='container max-w-5xl w-full mx-auto bg-gray-600'>
-      <section className='flex items-center justify-center flex-col'>
-        <h1 className='text-4xl py-5 font-semibold  text-white'>{pokemon.name}</h1>
-        <img width={300} src={pokemon.image} alt={pokemon.name} />
-        <div className='py-3'>
-          {/* {pokemon.types.map((data, index) =>
-            <span className='mx-2 text-lg font-sans' key={index}>
-              {data.type.name}
-            </span>
-          )} */}
+    <main className='container  max-w-5xl w-full mx-auto bg-gray-600'>
+      <section className='flex items-center justify-center gap-10 py-10 grass'>
+        <div className='flex  items-center justify-center bg-emerald-900 rounded-full'>
+          <img width={300} src={pokemon.image} alt={pokemon.name} />
         </div>
-        <p className='flex flex-col text-lg text-white items-center'>
-          <span>{pokemon.description.nick}</span>
-          {pokemon.description.description}
-        </p>
+        <div className='flex flex-col items-start  '>
+          <h2 className='text-4xl font-semibold text-white'>{firtLetterUP(pokemon.name)}</h2>
+          <div>
+            <p className='text-lg text-gray-300 py-1'>{pokemon.description.nick}</p>
+            <p>
+              {pokemon.types.map((data, index) => <span className='mr-2 bg-gray-400 rounded-full px-1' key={index}>{data.name}</span>)}
+            </p>
+          </div>
+        </div>
       </section>
       <section className='flex items-center justify-center gap-5'>
         <img src={pokemon.evolutions.first.image} alt="" />
