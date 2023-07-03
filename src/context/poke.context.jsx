@@ -80,25 +80,24 @@ const pokeContextProvider = ({ children }) => {
             const urlEvolutionLine = async () => {
                 const firstResponse = await getDataPokemonRequest(resp.data.species.url)
                 const secondResponse = await getDataPokemonRequest(firstResponse.data.evolution_chain.url)
-                const intermediare = secondResponse.data.chain.evolves_to.map(async(data) => {
-                    const name =data.species?.name
+                const intermediare = secondResponse.data.chain.evolves_to.map(async (data) => {
                     return {
-                        name,
-                        image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(data.species.name)).data.id}.png`
+                        name: data.species?.name,
+                        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(data.species.name)).data.id}.png`
                     }
                 })
-                const conditio=secondResponse.data.chain.evolves_to[0] && secondResponse.data.chain.evolves_to[0].evolves_to.length>0
+                const conditio = secondResponse.data.chain.evolves_to[0] && secondResponse.data.chain.evolves_to[0].evolves_to.length > 0
                 const intermediareResolve = await Promise.all(intermediare)
                 return {
                     first: {
-                        name:secondResponse.data.chain.species.name,
-                        image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${resp.data.id}.png`
+                        name: secondResponse.data.chain.species.name,
+                        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(secondResponse.data.chain.species.name)).data.id}.png`
                     },
-                    intermediare:intermediareResolve,
+                    intermediare: intermediareResolve,
                     finally: {
-                    name :conditio? secondResponse.data.chain.evolves_to[0].species.name : undefined,
-                    image:conditio?`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(secondResponse.data.chain.evolves_to[0].species.name)).data.id}.png`:undefined
-                }
+                        name: conditio ? secondResponse.data.chain.evolves_to[0].evolves_to[0].species.name : undefined,
+                        image: conditio ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(secondResponse.data.chain.evolves_to[0].evolves_to[0].species.name)).data.id}.png` : undefined
+                    }
                 }
             }
             const dataEvolutionLine = await urlEvolutionLine()
@@ -109,15 +108,15 @@ const pokeContextProvider = ({ children }) => {
             const dataMoves = await Promise.all(urlMobments)
 
             const all = {
-                name:resp.data.name,
-                id:resp.data.id,
+                name: resp.data.name,
+                id: resp.data.id,
                 evolutions: dataEvolutionLine,
                 abilities: dataAbilities,
                 description: dataDescription,
                 types: dataTypes,
                 stats: dataStats,
                 moves: dataMoves,
-                image:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${resp.data.id}.png`,
+                image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${resp.data.id}.png`,
             }
             console.log(all)
             setPokemon(all)

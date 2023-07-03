@@ -15,7 +15,7 @@ function Content() {
 
   return (
     <main className='container max-w-5xl w-full mx-auto bg-gray-600'>
-       <section className='flex items-center justify-center flex-col'>
+      <section className='flex items-center justify-center flex-col'>
         <h1 className='text-4xl py-5 font-semibold  text-white'>{pokemon.name}</h1>
         <img width={300} src={pokemon.image} alt={pokemon.name} />
         <div className='py-3'>
@@ -30,13 +30,13 @@ function Content() {
           {pokemon.description.description}
         </p>
       </section>
-      <section className='flex gap-5'>
-            <img src={pokemon.evolutions.first.image} alt="" />
-            {pokemon.evolutions.intermediare?.map((data,index)=>{
-              <img src={data.image} key={index} alt=''/>
-            })}
-            <img src={pokemon.evolutions.finally.image} alt="" />
-      </section> 
+      <section className='flex items-center justify-center gap-5'>
+        <img src={pokemon.evolutions.first.image} alt="" />
+        <div className='flex '>
+          {pokemon.evolutions.intermediare?.map((data, index) => <img key={index} src={data.image} />)}
+        </div>
+        <img src={pokemon.evolutions.finally.image} alt="" />
+      </section>
     </main>
   )
 }
