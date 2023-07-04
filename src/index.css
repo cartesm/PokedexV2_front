@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 body {
-  background-color: #181818;
+  background: url(./assets/bg.png) no-repeat fixed #181818;
+  background-size: cover;
 }
-
+main{
+  overflow: hidden;
+}
 .input {
   @apply px-3 py-1 my-2 outline-none w-full rounded-md bg-sky-900 accent-white
 }
@@ -18,7 +21,17 @@ body {
   @apply text-white text-lg font-sans
 }
 .bg-path{
-  background: url(./assets/path.jpg) no-repeat;
+  background: url(./assets/path.jpg)  no-repeat;
   background-size: cover;
-  filter: drop-shadow(0 5px 10px #181818);
+  background-position: 0 100%;
+}
+
+
+.separator{
+  position: relative;
+  margin: -25px auto;
+  width: 50px;
+  transform: rotate(45deg);
+  height: 50px;
+  background: green;
 }

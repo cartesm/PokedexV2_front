@@ -100,6 +100,28 @@ const pokeContextProvider = ({ children }) => {
                     }
                 }
             }
+            const coloresPokemon = {
+                Acero: "808080",
+                Agua: "00BFFF",
+                Bicho: "8FBC8F",
+                Dragón: "9932CC",
+                Eléctrico: "FFD700",
+                Fantasma: "4B0082",
+                Fuego: "FF4500",
+                Hada: "FF69B4",
+                Hielo: "ADD8E6",
+                Lucha: "8B4513",
+                Normal: "D3D3D3",
+                Planta: "008000",
+                Psíquico: "FF1493",
+                Roca: "A0522D",
+                Siniestro: "2F4F4F",
+                Tierra: "CD853F",
+                Veneno: "9932CC",
+                Volador: "87CEEB",
+                Desconocido: "FFFFFF"
+            };
+
             const dataEvolutionLine = await urlEvolutionLine()
             const dataDescription = await urlDescription()
             const dataStats = await Promise.all(urlStats)
@@ -115,6 +137,7 @@ const pokeContextProvider = ({ children }) => {
                 description: dataDescription,
                 types: dataTypes,
                 stats: dataStats,
+                color:coloresPokemon[dataTypes[0].name],
                 moves: dataMoves,
                 image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${resp.data.id}.png`,
             }
