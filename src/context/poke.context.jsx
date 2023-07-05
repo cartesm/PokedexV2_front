@@ -98,8 +98,8 @@ const pokeContextProvider = ({ children }) => {
                         name: conditio ? secondResponse.data.chain.evolves_to[0].evolves_to[0].species.name : undefined,
                         image: conditio ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(secondResponse.data.chain.evolves_to[0].evolves_to[0].species.name)).data.id}.png` : undefined
                     }
-                }
             }
+                }
             const dataEvolutionLine = await urlEvolutionLine()
             const dataDescription = await urlDescription()
             const dataStats = await Promise.all(urlStats)

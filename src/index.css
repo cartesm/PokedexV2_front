@@ -6,9 +6,26 @@ body {
   background: url(./assets/bg.png) no-repeat fixed #181818;
   background-size: cover;
 }
+*{
+  @apply font-sans
+}
 
 main {
   overflow: hidden;
+  @apply relative lg:border-x-4 border-sky-800;
+  background: url(https://wallpapercave.com/wp/wp8797760.jpg) fixed no-repeat;
+  background-position: 100% 50%;
+}
+main::before{
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(1,4,6,.5);
+  
+}
+section{
+  @apply relative
 }
 
 .input {
@@ -55,18 +72,15 @@ main {
 }
 
 .stats {
-  background: url(https://img.freepik.com/vector-premium/juego-pixeles-superficie-ladrillo_313905-866.jpg);
   @apply -translate-y-2;
 }
 
 .liFather:hover>ul {
-
   display: flex;
-
 }
 
 .progress-stat::-webkit-progress-value {
-  @apply rounded-full 
+  @apply rounded-full
 }
 
 .progress-stat::-webkit-progress-bar {
