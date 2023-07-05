@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { usePoke } from '../context/poke.context'
 function Content() {
 
@@ -28,7 +28,7 @@ function Content() {
           <img width={300} src={pokemon.image} alt={pokemon.name} />
         </div>
         <div className='flex flex-col items-center text-center md:text-start md:items-start  '>
-          <h2 className='text-4xl font-semibold text-white'>{firtLetterUP(pokemon.name)}</h2>
+          <h2 className='text-4xl font-semibold text-white'>{firtLetterUP(pokemon.name)} <span className='text-3xl'>#{pokemon.id}</span></h2>
           <div>
             <p className='text-lg text-gray-300 py-1'>{pokemon.description.nick}</p>
             <p>
@@ -61,47 +61,65 @@ function Content() {
       </section>
       <section>
         <h3 className='text-3xl font-bold text-white text-center my-7 '>Habilidades</h3>
-        <div className='max-w-2xl w-full mx-auto text-lg'>
-          {pokemon.abilities.map((data, index) => <div className='my-3 border-x-[20px] border-indigo-600 bg-slate-200 w-full rounded-full px-3 flex py-2 ' key={index}>
-            <span className='bg-slate-100 rounded-full font-semibold text-indigo-500 px-2 mx-2'>
+        <div className='max-w-2xl w-full px-5 mx-auto text-lg'>
+          {pokemon.abilities.map((data, index) => <div
+            className='my-3 md:border-x-[20px] border-indigo-600 md:bg-slate-200 w-full rounded-full px-3 flex flex-col md:flex-row py-2 '
+            key={index}>
+            <span className='bg-slate-100 rounded-full text-center md:text-start font-semibold text-indigo-500 px-2 mx-2'>
               {data.name}
             </span>
-            <p>
+            <p className='md:text-start py-2 md:p-0  text-white md:text-black text-center'>
               {data.description}
             </p>
           </div>)}
         </div>
       </section>
-      <section>
+      <section className='flex flex-col items-center justify-center'>
         <h3 className='text-center text-3xl pt-10 pb-6 font-bold text-white'>
           Mobimientos que
-          {firtLetterUP(pokemon.name)}
-          <span className='underline'>
+          <span className='underline mx-2'>
+            {firtLetterUP(pokemon.name)} <br />
           </span>
           puede aprender.
         </h3>
-        <div className='bg-slate-200 max-h-[400px] overflow-auto max-w-xl rounded-md mx-auto px-3 py-2'>
-          <div className='grid grid-cols-4 bg-slate-100 rounded-full px-3 text-center my-2 gap-5 '>
-            <span></span>
+        <div className='bg-slate-300 max-h-[400px] w-full max-w-xl rounded-md px-3 py-2'>
+          <div className='grid grid-cols-4 bg-slate-100 rounded-full px-3 font-semibold text-lg text-gray-600 text-center my-2 gap-5 '>
             <span>Nombre</span>
             <span>Tipo</span>
             <span>Potencia</span>
+            <span>Presicion</span>
           </div>
-          {pokemon.moves.map((data, index) => <div className='grid text-center grid-cols-4 my-2 gap-5 ' key={index}>
-            <span>{index+1}</span>
-            <span className={`bg-slate-100 w-[150px] text-indigo-500 font-semibold grid-1 inline-block px-2 rounded-full`}>{data.name ? data.name : "???"}</span>
-            <span>{data.type}</span>
-            <span>{!data.power ? "---" : data.power}</span>
-
-          </div>)}
+          <div className='overflow-auto  h-[300px]'>
+            {pokemon.moves.map((data, index) => <div className='grid rounded-md bg-slate-200 grid-cols-4 
+            text-center my-2 gap-y-2 '
+              key={index}>
+              <span className={`bg-slate-100 w-[100px] md:w-[150px] text-indigo-500 font-semibold px-2 rounded-full`}>{data.name ? data.name : "???"}</span>
+              <span className={data.type}>{data.type}</span>
+              <span>{!data.power ? "---" : data.power}</span>
+              <span>{!data.accuracy ? "---" : data.accuracy}</span>
+              <p className='text-center px-3 text-slate-600 -mt-1 mb-2 col-span-4'>{data.description}</p>
+            </div>)}
+          </div>
         </div>
       </section>
-      <section className='flex items-center justify-center gap-5'>
-        <img src={pokemon.evolutions.first.image} alt="" />
-        <div className='flex '>
-          {pokemon.evolutions.intermediare?.map((data, index) => <img key={index} src={data.image} />)}
+      <section >
+        <h3 className='text-3xl font-bold text-white text-center mt-16'>Evoluciones</h3>
+        <div className='flex items-center justify-center  my-10'>
+          <Link to={`/pokemon/${pokemon.evolutions.first.name}`} target='_blank' className='text-center'>
+            <img src={pokemon.evolutions.first.image} alt={pokemon.evolutions.first.name} />
+            <span className='text-white font-semibold text-lg'>{pokemon.evolutions.first.name}</span>
+          </Link>
+          <div className='flex '>
+            {pokemon.evolutions.intermediare?.map((data, index) => <Link target='_blank' to={`/pokemon/${data.name}`} className='text-center' key={index}>
+              <img alt={data.name} src={data.image} />
+              <span className='text-white font-semibold text-lg'>{data.name}</span>
+            </Link>)}
+          </div>
+          <Link to={`/pokemon/${pokemon.evolutions.finally.name}`} target='_blank' className='text-center'>
+            <img src={pokemon.evolutions.finally.image} alt={pokemon.evolutions.finally.name} />
+            <span className='text-white font-semibold text-lg'>{pokemon.evolutions.finally.name}</span>
+          </Link>
         </div>
-        <img src={pokemon.evolutions.finally.image} alt="" />
       </section>
     </main>
   )
