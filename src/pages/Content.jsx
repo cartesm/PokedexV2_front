@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from 'react'
+import { BiStar } from 'react-icons/bi'
 import { Link, useParams } from 'react-router-dom'
+import { useAuth } from '../context/auth.context'
 import { usePoke } from '../context/poke.context'
 function Content() {
 
-  const { getPokemon, pokemon, charge, firtLetterUP } = usePoke()
-  const [color, setcolor] = useState("")
+  const { favorites, favoritesData, } = useAuth()
+  const { getPokemon, pokemon, charge, firtLetterUP, addFav, deleteFav } = usePoke()
+
   const { id } = useParams()
   const maxValues = [714, 526, 658, 535, 658, 548];
-
-
-
+  const [isFavorite, setIsFavorite] = useState(false)
 
 
 
   useEffect(() => {
+    favorites()
     getPokemon(id)
-
   }, [])
+   
+  useEffect(() => {
+    favoritesData.map(data=>data.id==id?setIsFavorite(true):setIsFavorite(false))
+  }, [deleteFav,addFav])
+  
 
   if (charge) return <div className='text-4xl font-semibold text-center'>Loading...</div>
+
   return (
-    <main className={`container  max-w-5xl w-full mx-auto`}>
-      {console.log(pokemon.color)}
+    <main className={`container main-content max-w-5xl w-full mx-auto`}>
       <section className={`flex md:flex-row flex-col items-center justify-center gap-10 py-16 grass bg-path`}>
 
         <div className='flex  items-center justify-center bg-slate-300 rounded-full'>
@@ -37,7 +43,12 @@ function Content() {
             <p className='text-gray-200 text-lg max-w-sm w-full'>
               {pokemon.description.description}
             </p>
+            <BiStar className={` ${isFavorite ? "text-yellow-300" : "text-white"} cursor-pointer text-xl`} onClick={_ => {
+              !isFavorite ? addFav({ id: pokemon.id, name: pokemon.name }) : deleteFav(pokemon.id)
+              isFavorite?setIsFavorite(false):setIsFavorite(true)
+            }} />
           </div>
+
         </div>
       </section>
       <div className='separator-container'>

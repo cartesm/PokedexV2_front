@@ -10,13 +10,13 @@ body {
   @apply font-sans
 }
 
-main {
+.main-content{
   overflow: hidden;
   @apply relative lg:border-x-4 border-sky-800;
   background: url(https://wallpapercave.com/wp/wp8797760.jpg) fixed no-repeat;
   background-position: 100% 50%;
 }
-main::before{
+.main-content::before{
   content: "";
   position: absolute;
   height: 100%;
@@ -96,4 +96,10 @@ section{
   @apply text-amber-500
 }
 
+.li-item{
+  @apply px-3 py-1 bg-sky-400 border-t-4 border-sky-900;
 
+}
+.li-item:is(:hover){
+  @apply bg-sky-500
+}

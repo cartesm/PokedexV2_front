@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react'
-import { getDataPokemonRequest, getPokemonRequest } from '../api/poke.api'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { addFavRequest, deleteFavRequest } from '../api/favs.api'
+import { getAllpokemonsRequest, getDataPokemonRequest, getPokemonRequest } from '../api/poke.api'
 
 const pokeContext = createContext()
 export const usePoke = () => {
@@ -12,6 +13,7 @@ const pokeContextProvider = ({ children }) => {
 
     const [pokemon, setPokemon] = useState({})
     const [charge, setCharge] = useState(true)
+    const [allPokemons, setallPokemons] = useState([])
 
     const getPokemon = async (id) => {
         try {
@@ -98,8 +100,8 @@ const pokeContextProvider = ({ children }) => {
                         name: conditio ? secondResponse.data.chain.evolves_to[0].evolves_to[0].species.name : undefined,
                         image: conditio ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${(await getPokemonRequest(secondResponse.data.chain.evolves_to[0].evolves_to[0].species.name)).data.id}.png` : undefined
                     }
-            }
                 }
+            }
             const dataEvolutionLine = await urlEvolutionLine()
             const dataDescription = await urlDescription()
             const dataStats = await Promise.all(urlStats)
@@ -126,15 +128,50 @@ const pokeContextProvider = ({ children }) => {
             setCharge(false)
         }
     }
+    const getAllPokemons = async () => {
+        try {
+            const resp = await getAllpokemonsRequest()
+            console.log(resp.data.results)
+            setallPokemons(resp.data.results)
+        } catch (err) {
+            console.log(err)
+        }
+    }
     const firtLetterUP = (text) => {
         return text.charAt(0).toUpperCase() + text.slice(1);
     }
+    const addFav = async (data) => {
+        try {
+            /* id y name */
+            const resp = await addFavRequest(data)
+            console.log(resp)
+        } catch (err) {
+            console.log(err.message)
+            console.log(err)
+        }
+    }
+    const deleteFav = async (id) => {
+        try {
+            const resp = await deleteFavRequest(id)
+            console.log(resp)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        getAllPokemons()
+    }, [])
+
 
     return <pokeContext.Provider value={{
         getPokemon,
         pokemon,
         charge,
-        firtLetterUP
+        firtLetterUP,
+        addFav,
+        deleteFav,
+        allPokemons
     }}>
         {children}
     </pokeContext.Provider>

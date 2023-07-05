@@ -1,6 +1,7 @@
 import cookies from 'js-cookie'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { loginRequest, logoutRequest, registerRequest } from '../api/auth.api'
+import { getFavsRequest } from '../api/favs.api'
 
 const authContext = createContext()
 
@@ -15,6 +16,7 @@ const authContextProvider = ({ children }) => {
     const [isLoged, setIsLoged] = useState(false)
     const [authErrors, setAuthErrors] = useState([])
     const [userData, setUserData] = useState({})
+    const [favoritesData, setFavoritesData] = useState([])
 
     const registerUser = async (data) => {
         try {
@@ -22,7 +24,6 @@ const authContextProvider = ({ children }) => {
             console.log(resp)
             setIsLoged(true)
             setAuthErrors([])
-            setUserData(resp.data)
         }
         catch (err) {
 
@@ -50,6 +51,16 @@ const authContextProvider = ({ children }) => {
             console.log(err)
         }
     }
+    /* tomar favoritos */
+    const favorites = async () => {
+        try{
+            const resp = await getFavsRequest()
+            setFavoritesData(resp.data.favorites)
+        }catch(err){
+            console.log(err)
+        }
+    }
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             setAuthErrors([])
@@ -74,7 +85,9 @@ const authContextProvider = ({ children }) => {
         authErrors,
         logout,
         login,
-        userData
+        userData,
+        favorites,
+        favoritesData
     }}>
         {children}
     </authContext.Provider>
