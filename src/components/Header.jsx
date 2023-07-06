@@ -9,7 +9,6 @@ function Header() {
     const { allPokemons } = usePoke()
     /*  - filtrar los datos y terminar el formulario
         - hcaer el menu mobil
-        -mejorar registro y login
     */
     const [pokemonsFiltred, setPokemonsFiltred] = useState([])
     const [displayed, setDisplayed] = useState(false)
@@ -22,14 +21,6 @@ function Header() {
                     Simpledex
                 </h1>
             </Link>
-            <div>
-                <form action="" className=''>
-                    <input placeholder='Busca un pokemon' type="text" className='rounded-full outline-none px-3 py-1 caret-red-600' />
-                </form>
-                <div>
-
-                </div>
-            </div>
             {/* menu pc */}
             <ul className='gap-4 items-center md:flex hidden'>
                 <li className=' liFather cursor-pointer'>

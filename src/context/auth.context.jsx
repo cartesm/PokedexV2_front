@@ -36,6 +36,7 @@ const authContextProvider = ({ children }) => {
         try {
             const resp = await loginRequest(data)
             console.log(resp.data)
+            
             setUserData(resp.data)
             window.location.reload()
         } catch (err) {

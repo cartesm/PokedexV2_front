@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BiStar } from 'react-icons/bi'
 import { Link, useParams } from 'react-router-dom'
+import Image from '../components/ImagePrecharge'
 import { useAuth } from '../context/auth.context'
 import { usePoke } from '../context/poke.context'
 function Content() {
@@ -31,7 +32,7 @@ function Content() {
       <section className={`flex md:flex-row flex-col items-center justify-center gap-10 py-16 grass bg-path`}>
 
         <div className='flex  items-center justify-center bg-slate-300 rounded-full'>
-          <img width={300} src={pokemon.image} alt={pokemon.name} />
+          <Image width={300} url={pokemon.image} alt={pokemon.name} />
         </div>
         <div className='flex flex-col items-center text-center md:text-start md:items-start  '>
           <h2 className='text-4xl font-semibold text-white'>{firtLetterUP(pokemon.name)} <span className='text-3xl'>#{pokemon.id}</span></h2>

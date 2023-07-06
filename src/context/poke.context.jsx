@@ -131,7 +131,6 @@ const pokeContextProvider = ({ children }) => {
     const getAllPokemons = async () => {
         try {
             const resp = await getAllpokemonsRequest()
-            console.log(resp.data.results)
             setallPokemons(resp.data.results)
         } catch (err) {
             console.log(err)
