@@ -17,7 +17,7 @@ function Home() {
   return (
     <main>
       <section>
-        <h3>Busca un pokemon</h3>
+        <h3 className='text-white text-[25px] font-bold'>Busca un pokemon</h3>
         <div className=' bg-slate-200 flex items-center justify-around max-w-xs my-6 py-1 px-3 rounded-full mx-auto'>
           <form action="" onSubmit={handleSubmit}>
             <input type="text" onChange={handleChange} placeholder='Id o Nombre'

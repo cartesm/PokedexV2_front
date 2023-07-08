@@ -15,8 +15,8 @@ const authContextProvider = ({ children }) => {
 
     const [isLoged, setIsLoged] = useState(false)
     const [authErrors, setAuthErrors] = useState([])
-    const [userData, setUserData] = useState({})
     const [favoritesData, setFavoritesData] = useState([])
+    const [userData, setUserData] = useState({})
 
     const registerUser = async (data) => {
         try {
@@ -26,7 +26,6 @@ const authContextProvider = ({ children }) => {
             setAuthErrors([])
         }
         catch (err) {
-
             setAuthErrors(err.response.data)
             setIsLoged(false)
         }
@@ -36,9 +35,8 @@ const authContextProvider = ({ children }) => {
         try {
             const resp = await loginRequest(data)
             console.log(resp.data)
-            
-            setUserData(resp.data)
-            window.location.reload()
+            setAuthErrors([])
+
         } catch (err) {
             setAuthErrors(err.response.data)
         }
@@ -54,14 +52,14 @@ const authContextProvider = ({ children }) => {
     }
     /* tomar favoritos */
     const favorites = async () => {
-        try{
+        try {
             const resp = await getFavsRequest()
             setFavoritesData(resp.data.favorites)
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
     }
-    
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setAuthErrors([])
@@ -75,7 +73,8 @@ const authContextProvider = ({ children }) => {
         else {
             setIsLoged(true)
         }
-    }, [])
+
+    }, [isLoged])
 
 
 
@@ -85,8 +84,8 @@ const authContextProvider = ({ children }) => {
         isLoged,
         authErrors,
         logout,
-        login,
         userData,
+        login,
         favorites,
         favoritesData
     }}>

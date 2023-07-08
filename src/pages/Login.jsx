@@ -12,6 +12,8 @@ function Login() {
   const [isVisible, setIsVisible] = useState(false)
 
   const changeVisivility = () => isVisible ? setIsVisible(false) : setIsVisible(true)
+
+  
   const navigate = useNavigate()
   
   if (isLoged) return navigate("/")
