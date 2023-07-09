@@ -23,8 +23,8 @@ const authContextProvider = ({ children }) => {
             console.log(resp)
             setIsLoged(true)
             setAuthErrors([])
-            localStorage.setItem("userData",JSON.stringify(resp.data))
-
+            localStorage.setItem("userData", JSON.stringify(resp.data))
+            window.location.reload()
 
         }
         catch (err) {
@@ -38,7 +38,8 @@ const authContextProvider = ({ children }) => {
             const resp = await loginRequest(data)
             console.log(resp.data)
             setAuthErrors([])
-            localStorage.setItem("userData",JSON.stringify(resp.data))
+            localStorage.setItem("userData", JSON.stringify(resp.data))
+            window.location.reload()
 
         } catch (err) {
             setAuthErrors(err.response.data)

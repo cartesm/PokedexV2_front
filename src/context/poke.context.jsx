@@ -120,7 +120,6 @@ const pokeContextProvider = ({ children }) => {
                 moves: dataMoves,
                 image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${resp.data.id}.png`,
             }
-            console.log(all)
             setPokemon(all)
             setCharge(false)
         } catch (err) {

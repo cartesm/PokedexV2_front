@@ -14,19 +14,19 @@ function Favorites() {
   }, [])
 
 
-  if (favoritesData.length === 0) return <div className='flex flex-col items-center justify-center'>
+  if (favoritesData.length === 0) return <main className='flex flex-col h-screen bg-[#103a55] max-w-5xl mx-auto items-center justify-center'>
     <img width={400} src={logo} />
     <h3 className='text-3xl font-bold text-white text-center'>No se encontraron favoritos.</h3>
-  </div>
+  </main>
 
-  return (<main>
-    <section className=' max-w-md w-full mx-auto'>
-      <h3 className='text-3xl mt-2 mb-6 font-bold text-white'>Tus favoritos</h3>
+  return (<main className='main-content bg-[#103a55] h-screen max-w-5xl mx-auto'>
+    <section className=''>
+      <h3 className='text-3xl mx-6 my-4 mb-6 font-bold text-white'>Tus favoritos</h3>
       <div>
-        {favoritesData.map((data, index) => <div className='my-2 bg-slate-200 rounded-lg flex items-center justify-evenly h-[60px] w-full' key={index}>
+        {favoritesData.map((data, index) => <div className='my-2 mx-6 bg-slate-200 rounded-lg flex items-center justify-evenly h-[60px] ' key={index}>
           <span className='mx-6 text-[#181818] font-bold text-lg'>#{index + 1}</span>
           <div className='flex items-center'>
-            <span className='text-xl font-semibold text-indigo-600'>{data.name}</span>
+            <span className='text-xl font-semibold text-[#08acaa]'>{data.name}</span>
             <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.id}.png`} alt="" />
             <p onClick={()=>{
               deleteFav(data.id)

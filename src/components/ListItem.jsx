@@ -13,7 +13,7 @@ function ListItem({ data }) {
 
 
   return (
-    <Link to={`/pokemon/${data.name}`} reloadDocument className='bg-[#103a55] text-center flex flex-col items-center  m-1 rounded-md'>
+    <Link to={`/pokemon/${data.name}`} reloadDocument className='bg-[#103a55] text-center flex flex-col items-center  m-1 rounded-2xl'>
       <Image url={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} 
       alt={data.name} />
       <span className='text-lg font-semibold text-[#04edc9]'>{data.name}</span>

@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 body {
-  background: url(./assets/bg.png) no-repeat fixed #181818;
-  background-size: cover;
+  @apply bg-slate-300
 }
 
 * {
@@ -80,21 +79,8 @@ section {
   height: 100%;
 }
 
-.separator-container {
-  @apply relative z-10 h-[30px] flex items-center -translate-y-2 bg-[#11241A]
-}
 
-.separator {
-  @apply mx-auto -mb-7 bg-[#11241A] h-[40px] w-[40px] rotate-45
-}
 
-.stats {
-  @apply -translate-y-2;
-}
-
-.liFather:hover>ul {
-  display: flex;
-}
 
 .progress-stat::-webkit-progress-value {
   @apply rounded-full

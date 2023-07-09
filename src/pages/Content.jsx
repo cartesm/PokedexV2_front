@@ -6,7 +6,7 @@ import { useAuth } from '../context/auth.context'
 import { usePoke } from '../context/poke.context'
 function Content() {
 
-  const { favorites, favoritesData, } = useAuth()
+  const { favorites, favoritesData, isLoged } = useAuth()
   const { getPokemon, pokemon, charge, firtLetterUP, addFav, deleteFav } = usePoke()
 
   const { id } = useParams()
@@ -16,16 +16,19 @@ function Content() {
 
 
   useEffect(() => {
-    favorites()
+    localStorage.getItem("userData") ? favorites() : undefined
     getPokemon(id)
   }, [])
 
   useEffect(() => {
-    favoritesData.map(data => data.id == id ? setIsFavorite(true) : setIsFavorite(false))
+    favoritesData.find(data => data.id == pokemon.id? setIsFavorite(true) : setIsFavorite(false))
   }, [deleteFav, addFav])
 
 
-  if (charge) return <div className='text-4xl font-semibold text-center'>Loading...</div>
+  if (charge) return <div className='text-4xl h-screen bg-slate-400 mx-auto max-w-5xl w-full font-semibold flex-col flex items-center justify-center'>
+    <span className='lds-dual-ring rounded-full bg-slate-500'></span>
+    <span className='text-2xl text-[#181818]'>Cargando..</span>
+  </div>
 
   return (
     <main className={`container bg-[#103a55] main-content max-w-5xl w-full mx-auto`}>
@@ -44,32 +47,33 @@ function Content() {
             <p className='text-gray-200 text-lg max-w-sm w-full'>
               {pokemon.description.description}
             </p>
-            <BiStar className={` ${isFavorite ? "text-yellow-300" : "text-white"} cursor-pointer text-xl`} onClick={_ => {
-              !isFavorite ? addFav({ id: pokemon.id, name: pokemon.name }) : deleteFav(pokemon.id)
-              isFavorite ? setIsFavorite(false) : setIsFavorite(true)
-            }} />
+            {isLoged ?
+              <BiStar className={` ${isFavorite ? "text-yellow-300" : "text-white"} cursor-pointer text-xl`} onClick={_ => {
+                !isFavorite ? addFav({ id: pokemon.id, name: pokemon.name }) : deleteFav(pokemon.id)
+                isFavorite ? setIsFavorite(false) : setIsFavorite(true)
+              }} /> : undefined}
           </div>
         </div>
       </section>
       {/* stats */}
       <section className='stats'>
-        
-       <h3 className='text-4xl text-center pt-8 text-white font-bold underline decoration-[#04edc9]'>Estadisticas</h3>
+
+        <h3 className='text-4xl text-center pt-8 text-white font-bold'>Estadisticas</h3>
         <div className='py-10'>
           {pokemon.stats.map((data, index) => <div className=' flex items-center max-w-lg mx-auto justify-end gap-3' key={index}>
             <span className='text-gray-200 text-start block max-w-[250px] w-full text-2xl py-1'>{data.name}</span>
-            <div className='w-[300px] flex justify-start h-[25px] bg-slate-400 rounded-full'>
+            <div className='w-[300px] flex justify-start h-[25px] bg-[#103a55] rounded-full'>
               <div className={`bg-[#08acaa] rounded-full text-center text-gray-800 font-semibold text-lg h-full`}
                 style={{ width: Math.round((data.stat * 100) / maxValues[index]) * 6 }}>
                 {data.stat}
               </div>
             </div>
           </div>)}
-        </div> 
+        </div>
       </section>
       {/* habilidades */}
       <section>
-        <h3 className='text-3xl font-bold text-white text-center my-7 underline decoration-[#04edc9]'>Habilidades</h3>
+        <h3 className='text-3xl font-bold text-white text-center my-7 '>Habilidades</h3>
         <div className='max-w-2xl w-full px-5 mx-auto grid grid-cols-1  md:grid-cols-3 gap-3 place-items-center'>
           {pokemon.abilities.map((data, index) => <div
             className=' rounded-2xl bg-gray-900 bg-opacity-60 p-4 max-w-xs'
@@ -104,17 +108,17 @@ function Content() {
             text-center my-2 gap-y-2 '
               key={index}>
               <span className={` w-[100px] md:w-[150px] text-slate-100 font-semibold px-2 rounded-full`}>{data.name ? data.name : "???"}</span>
-              <span className="text-">{data.type}</span>
+              <span className="text-white">{data.type}</span>
               <span>{!data.power ? "---" : data.power}</span>
               <span>{!data.accuracy ? "---" : data.accuracy}</span>
-              <p className='text-center px-3  -mt-1 mb-2 col-span-4'>{data.description}</p>
+              <p className='text-center px-3 text-slate-300 -mt-1 mb-2 col-span-4'>{data.description}</p>
             </div>)}
           </div>
         </div>
       </section>
       {/* evoluciones */}
-      <section >
-        <h3 className='text-3xl font-bold text-white text-center mt-16 underline decoration-[#04edc9]'>Evoluciones</h3>
+      <section className='pb-10'>
+        <h3 className='text-3xl font-bold text-white text-center mt-16 '>Evoluciones</h3>
         <div className='flex items-center justify-center  my-10'>
           <Link to={`/pokemon/${pokemon.evolutions.first.name}`} target='_blank' className='text-center'>
             <div className='flex flex-col items-center justify-center'>
@@ -130,12 +134,12 @@ function Content() {
               </div>
             </Link>)}
           </div>
-          <Link to={`/pokemon/${pokemon.evolutions.finally.name}`} target='_blank' className='text-center'>
+          {pokemon.evolutions.finally.image ? <Link to={`/pokemon/${pokemon.evolutions.finally.name}`} target='_blank' className='text-center'>
             <div className='flex flex-col items-center justify-center'>
-              <Image url={pokemon.evolutions.finally.image} alt={pokemon.evolutions.finally.name} />
-              <span className='text-white font-semibold text-lg'>{pokemon.evolutions.finally.name}</span>
+              <Image url={pokemon.evolutions.finally?.image} alt={pokemon.evolutions.finally?.name} />
+              <span className='text-white font-semibold text-lg'>{pokemon.evolutions.finally?.name}</span>
             </div>
-          </Link>
+          </Link> : undefined}
         </div>
       </section>
     </main>

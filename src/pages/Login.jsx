@@ -7,20 +7,21 @@ import { useAuth } from '../context/auth.context'
 function Login() {
 
   const { handleSubmit, formState: { errors }, register } = useForm()
-  const { login,isLoged,authErrors } = useAuth()
+  const { login, isLoged, authErrors } = useAuth()
 
   const [isVisible, setIsVisible] = useState(false)
 
   const changeVisivility = () => isVisible ? setIsVisible(false) : setIsVisible(true)
 
-  
+
   const navigate = useNavigate()
-  
+
   if (isLoged) return navigate("/")
 
-  return (
-    <div className='max-w-md mx-auto flex items-center justify-center h-screen'>
-      <div className='bg-sky-950 p-5 rounded-md'>
+  return (<main className='main-content max-w-5xl mx-auto bg-[#103a55]'>
+
+    <section className='max-w-md mx-auto flex items-center justify-center h-screen'>
+      <div className='bg-sky-950 p-6 rounded-md'>
         <h1 className='text-3xl text-white font-bold my-3'>Login</h1>
         <form action='' onSubmit={handleSubmit(async (e) => {
           await login(e)
@@ -51,10 +52,11 @@ function Login() {
         <p className='text-white flex gap-2 mt-2'>
           <span>¿No tienes cuenta?</span>
           <Link to={"/register"}
-          className='text-sky-500'>Registrate</Link>
+            className='text-sky-500'>Registrate</Link>
         </p>
       </div>
-    </div>
+    </section>
+  </main>
   )
 }
 
