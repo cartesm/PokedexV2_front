@@ -16,7 +16,6 @@ const authContextProvider = ({ children }) => {
     const [isLoged, setIsLoged] = useState(false)
     const [authErrors, setAuthErrors] = useState([])
     const [favoritesData, setFavoritesData] = useState([])
-    const [userData, setUserData] = useState({})
 
     const registerUser = async (data) => {
         try {
@@ -24,6 +23,9 @@ const authContextProvider = ({ children }) => {
             console.log(resp)
             setIsLoged(true)
             setAuthErrors([])
+            localStorage.setItem("userData",JSON.stringify(resp.data))
+
+
         }
         catch (err) {
             setAuthErrors(err.response.data)
@@ -36,6 +38,7 @@ const authContextProvider = ({ children }) => {
             const resp = await loginRequest(data)
             console.log(resp.data)
             setAuthErrors([])
+            localStorage.setItem("userData",JSON.stringify(resp.data))
 
         } catch (err) {
             setAuthErrors(err.response.data)
@@ -46,6 +49,7 @@ const authContextProvider = ({ children }) => {
             const resp = await logoutRequest()
             setIsLoged(false)
             window.location.reload()
+            localStorage.clear("userData")
         } catch (err) {
             console.log(err)
         }
@@ -84,7 +88,6 @@ const authContextProvider = ({ children }) => {
         isLoged,
         authErrors,
         logout,
-        userData,
         login,
         favorites,
         favoritesData

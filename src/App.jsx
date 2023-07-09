@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Protector from './ProtectedRoutes'
+import Footer from './components/Footer'
 import Header from './components/Header'
 import AuthContext from './context/auth.context'
 import PokeContext from './context/poke.context'
@@ -26,6 +27,7 @@ function App() {
               <Route path='/favorites' element={<Favorites />} />
             </Route>
           </Routes>
+        <Footer/>
         </BrowserRouter>
       </PokeContext>
 
